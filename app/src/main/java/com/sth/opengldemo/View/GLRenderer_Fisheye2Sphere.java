@@ -79,7 +79,7 @@ public class GLRenderer_Fisheye2Sphere implements GLSurfaceView.Renderer
     private boolean updateSurface;
     private boolean playerPrepared;
     private int screenWidth,screenHeight;
-    private PanoMediaPlayerWrapper wrapperMediaPlayer;
+    private PanoMediaPlayerWrapper wrapperMediaPlayer=null;
     private PanoUIController panoUIController=null;
     public GLMode glMode = new GLMode();
 
@@ -312,7 +312,7 @@ public class GLRenderer_Fisheye2Sphere implements GLSurfaceView.Renderer
     @Override
     synchronized public void onFrameAvailable(SurfaceTexture surface) {
         updateSurface = true;
-        if (wrapperMediaPlayer.getPlayerCallback()!=null){
+        if (wrapperMediaPlayer!=null&&wrapperMediaPlayer.getPlayerCallback()!=null){
             wrapperMediaPlayer.getPlayerCallback().updateProgress();
         }
     }
@@ -443,5 +443,8 @@ public class GLRenderer_Fisheye2Sphere implements GLSurfaceView.Renderer
             wrapperMediaPlayer.getmMediaPlayer().stop();;
             wrapperMediaPlayer.getmMediaPlayer().release();
         }
+    }
+    public  GLMode getGLMode(){
+        return glMode;
     }
 }

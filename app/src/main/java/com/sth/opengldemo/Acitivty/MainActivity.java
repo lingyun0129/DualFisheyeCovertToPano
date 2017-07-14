@@ -18,6 +18,7 @@ import android.widget.RelativeLayout;
 
 import com.sth.opengldemo.Constant.PanoStatus;
 import com.sth.opengldemo.R;
+import com.sth.opengldemo.Util.GLMode;
 import com.sth.opengldemo.Util.PanoMediaPlayerWrapper;
 import com.sth.opengldemo.Util.StatusHelper;
 import com.sth.opengldemo.Util.UIUtils;
@@ -80,6 +81,15 @@ public class MainActivity extends Activity {
         mPanoUIController.setAutoHideController(true);
         mPanoUIController.setUiCallback(new PanoUIController.UICallback() {
             @Override
+            public void changeInteractiveMode() {
+                if(glRenderer.getGLMode().Mode_Sensor_GesRot== GLMode.MODE_SENSOR.MODE_SENSOR_ROTATION) {
+                    glRenderer.getGLMode().Mode_Sensor_GesRot = GLMode.MODE_SENSOR.MODE_SENSOR_GESTURE;
+                }else{
+                    glRenderer.getGLMode().Mode_Sensor_GesRot= GLMode.MODE_SENSOR.MODE_SENSOR_ROTATION;
+                }
+            }
+
+            @Override
             public void changePlayingStatus() {
                 if (wrapperMediaPlayer.getStatusHelper().getPanoStatus()== PanoStatus.PLAYING){
                     wrapperMediaPlayer.pauseByUser();
@@ -90,17 +100,32 @@ public class MainActivity extends Activity {
 
             @Override
             public void playerSeekTo(int pos) {
-                wrapperMediaPlayer.getmMediaPlayer().seekTo(pos);
+                if (wrapperMediaPlayer.getmMediaPlayer()!=null){
+/*                    PanoStatus panoStatus=wrapperMediaPlayer.getStatusHelper().getPanoStatus();
+                    if (panoStatus==PanoStatus.PLAYING
+                            || panoStatus==PanoStatus.PAUSED
+                            || panoStatus== PanoStatus.PAUSED_BY_USER)*/
+                        wrapperMediaPlayer.getmMediaPlayer().seekTo(pos);
+                }
             }
 
             @Override
             public int getPlayerDuration() {
-                return wrapperMediaPlayer.getmMediaPlayer().getDuration();
+                if (wrapperMediaPlayer.getmMediaPlayer()!=null)
+                {
+
+                    return wrapperMediaPlayer.getmMediaPlayer().getDuration();
+                }
+                return 0;
             }
 
             @Override
             public int getPlayerCurrentPosition() {
-                return wrapperMediaPlayer.getmMediaPlayer().getCurrentPosition();
+                if (wrapperMediaPlayer.getmMediaPlayer()!=null){
+
+                    return wrapperMediaPlayer.getmMediaPlayer().getCurrentPosition();
+                }
+                return 0;
             }
         });
         wrapperMediaPlayer.setPlayerCallback(new PanoMediaPlayerWrapper.PlayerCallback() {
@@ -128,12 +153,31 @@ public class MainActivity extends Activity {
     protected void onPause() {
         super.onPause();
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        glSurfaceView.onPause();
+        if(wrapperMediaPlayer!=null && wrapperMediaPlayer.getStatusHelper().getPanoStatus()== PanoStatus.PLAYING){
+            wrapperMediaPlayer.pause();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        glSurfaceView.onResume();
+        if (wrapperMediaPlayer!=null){
+            if(wrapperMediaPlayer.getStatusHelper().getPanoStatus()==PanoStatus.PAUSED){
+                wrapperMediaPlayer.start();
+            }
+        }
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        glRenderer.releaseResource();
+        if(wrapperMediaPlayer!=null){
+            wrapperMediaPlayer.releaseResource();
+            wrapperMediaPlayer=null;
+        }
+        //glRenderer.releaseResource();
     }
 
     @Override

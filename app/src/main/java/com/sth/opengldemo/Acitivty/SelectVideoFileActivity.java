@@ -25,7 +25,7 @@ public class SelectVideoFileActivity extends Activity {
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent(SelectVideoFileActivity.this, FilePickerActivity.class);
-                intent.putExtra(FilePickerActivity.ARG_FILTER, Pattern.compile("(.*\\.mp4$)||(.*\\.avi$)||(.*\\.wmv$)"));
+                intent.putExtra(FilePickerActivity.ARG_FILTER, Pattern.compile("(.*\\.mp4$)||(.*\\.avi$)||(.*\\.wmv$)||(.*\\.jpg$)"));
                 startActivityForResult(intent, 1);
             }
         });

@@ -28,6 +28,6 @@ public class GLMode {
     //public static final int MODE_VR_ON = 2;
 
     public MODE_VIEW Mode_View_InOut = MODE_VIEW.MODE_VIEW_IN;
-    public MODE_SENSOR Mode_Sensor_GesRot = MODE_SENSOR.MODE_SENSOR_GESTURE;
+    public MODE_SENSOR Mode_Sensor_GesRot = MODE_SENSOR.MODE_SENSOR_ROTATION;
     public MODE_VR Mode_View_VR = MODE_VR.MODE_VR_OFF;
 }

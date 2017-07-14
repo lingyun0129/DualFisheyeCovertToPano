@@ -21,9 +21,8 @@ import java.util.TimerTask;
  * Created by Ads on 2016/11/10.
  */
 public class PanoUIController {
-
-/*    private RelativeLayout controlToolbar;
     private ToggleButton gyroBtn;             // 陀螺仪控制按钮
+/*    private RelativeLayout controlToolbar;
     private ToggleButton dualScreenBtn;       // 单双屏
     private ImageView backBtn;
     private ImageView screenshotBtn;*/
@@ -65,6 +64,7 @@ public class PanoUIController {
         backBtn= (ImageView) controlToolbar.findViewById(R.id.back_btn);
         screenshotBtn= (ImageView) controlToolbar.findViewById(R.id.screenshot_btn);*/
         //progressToolbar
+        gyroBtn= (ToggleButton) progressToolbar.findViewById(R.id.gyro_btn);
         processSeekBar= (SeekBar) progressToolbar.findViewById(R.id.progress_seek_bar);
         currTimeText = (TextView) progressToolbar.findViewById(R.id.txt_time_curr);
         totalTimeText = (TextView) progressToolbar.findViewById(R.id.txt_time_total);
@@ -90,14 +90,14 @@ public class PanoUIController {
                 startHideControllerTimer();
             }
         });
-       /* gyroBtn.setOnClickListener(new View.OnClickListener() {
+        gyroBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startHideControllerTimer();
                 uiCallback.changeInteractiveMode();
             }
         });
-
+        /*
         dualScreenBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -161,8 +161,8 @@ public class PanoUIController {
     public interface UICallback{
 /*        void requestScreenshot();
         void requestFinish();
-        void changeDisPlayMode();
-        void changeInteractiveMode();*/
+        void changeDisPlayMode();*/
+        void changeInteractiveMode();
         void changePlayingStatus();
         void playerSeekTo(int pos);
         int getPlayerDuration();
